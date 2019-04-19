@@ -45,6 +45,9 @@ export const templateDescription = {
             xs12: true,
             sm6: true,
         },
+        convertFunction: (prop) => {
+            return prop.name
+        },
         label: 'device',
     },
     film:  {
@@ -53,6 +56,9 @@ export const templateDescription = {
             xs12: true,
             sm6: true,
         },
+        convertFunction: (prop) => {
+            return prop.name
+        },
         label: 'film',
     },
     luminophore:  {
@@ -60,6 +66,9 @@ export const templateDescription = {
         flexValues: {
             xs12: true,
             sm6: true,
+        },
+        convertFunction: (prop) => {
+            return prop.name
         },
         label: 'luminophore',
     },

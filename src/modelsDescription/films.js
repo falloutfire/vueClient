@@ -37,6 +37,9 @@ export const filmDescription = {
             xs12: true,
             sm6: true,
         },
+        convertFunction: (prop) => {
+            return prop.type
+        },
         label: 'chemicalType',
     },
 };
