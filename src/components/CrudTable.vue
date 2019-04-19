@@ -68,7 +68,7 @@
                                  && descr['descriptionFieldType'] !== 'checkBox'"
                         > {{ getValues(props.item[key], descr) }}
                         </td>
-                        <td v-if="descr['descriptionFieldType'] === 'checkBox'">
+                        <td :key="key" v-if="descr['descriptionFieldType'] === 'checkBox'">
                             <v-checkbox
                                     v-model="props.item[key]"
                                     primary
@@ -149,9 +149,9 @@
         },
         computed: {
             headers() {
-                return Object.entries(this.itemsDescription).filter(([key, descr]) => {
+                return Object.entries(this.itemsDescription).filter(([, descr]) => {
                     return descr.showInTable === undefined || descr.showInTable
-                }).map(([key, descr]) => {
+                }).map(([key,]) => {
                     return {
                         text: key,
                         value: key,
@@ -190,7 +190,7 @@
             },
             edit() {
                 this.editLoading = true;
-                HTTP.put(`${this.crudURL}`, this.editedItem).then(response => {
+                HTTP.put(`${this.crudURL}`, this.editedItem).then(() => {
                     this.editLoading = false;
                     this.editedItem = lodash.cloneDeep(this.defaultItem);
                     this.editDialog = false;
@@ -204,7 +204,7 @@
             },
             save() {
                 this.createLoading = true;
-                HTTP.post(`${this.crudURL}/${this.deletedItem.id}`, this.createdItem).then(response => {
+                HTTP.post(`${this.crudURL}/${this.deletedItem.id}`, this.createdItem).then(() => {
                     this.createLoading = false;
                     this.createdItem = lodash.cloneDeep(this.defaultItem);
                     this.createDialog = false;
@@ -224,9 +224,9 @@
                 this.deletedItem = item;
                 this.deleteDialog = true;
             },
-            sureDelete() {
+            sureDelete: function () {
                 this.deleteLoading = true;
-                HTTP.delete(`${this.crudURL}/${this.deletedItem.id}`).then(response => {
+                HTTP.delete(`${this.crudURL}/${this.deletedItem.id}`).then(() => {
                     this.deleteLoading = false;
                     this.deleteDialog = false;
                     this.success();

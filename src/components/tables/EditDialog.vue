@@ -56,7 +56,7 @@
         },
         computed: {
             fields() {
-                return Object.entries(this.fieldsDescription).filter(([key, descr]) => {
+                return Object.entries(this.fieldsDescription).filter(([, descr]) => {
                     return descr['editableField'] !== undefined ? descr['editableField'] : true
                 })
             },
