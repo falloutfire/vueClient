@@ -27,6 +27,7 @@
                 </v-dialog>
 
                 <edit-dialog
+                        :itemName="tableName"
                         :isOpen="editDialog"
                         v-model="editedItem"
                         :fieldsDescription="itemsDescription"
@@ -35,6 +36,7 @@
                 ></edit-dialog>
 
                 <edit-dialog
+                        :itemName="tableName"
                         :isOpen="createDialog"
                         v-model="createdItem"
                         :fieldsDescription="itemsDescription"
@@ -75,11 +77,6 @@
                                     hide-details
                             ></v-checkbox>
                         </td>
-                        <!--                    <td>{{ props.item.firstName }}</td>-->
-                        <!--                    <td>{{ props.item.lastName }}</td>-->
-                        <!--                    <td>{{ props.item.email }}</td>-->
-                        <!--                    <td>{{ props.item.username }}</td>-->
-                        <!--                    <td>{{ getRoles(props.item.roles) }}</td>-->
 
                     </template>
                     <td class="justify-center layout px-0">
@@ -137,14 +134,6 @@
                 deletedItem: this.defaultItem,
                 editedItem: this.defaultItem,
                 createdItem: this.defaultItem,
-
-                // headers: [
-                //     {text: 'First Name', value: 'firstName'},
-                //     {text: 'Last name', value: 'lastName'},
-                //     {text: 'Email', value: 'email'},
-                //     {text: 'Username', value: 'username'},
-                //     {text: 'Roles', value: 'roles'},
-                // ],
             }
         },
         computed: {

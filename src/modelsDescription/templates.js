@@ -45,6 +45,7 @@ export const templateDescription = {
             xs12: true,
             sm6: true,
         },
+        objectKeyField: 'name',
         convertFunction: (prop) => {
             return prop.name
         },
@@ -56,6 +57,7 @@ export const templateDescription = {
             xs12: true,
             sm6: true,
         },
+        objectKeyField: 'name',
         convertFunction: (prop) => {
             return prop.name
         },
@@ -67,6 +69,7 @@ export const templateDescription = {
             xs12: true,
             sm6: true,
         },
+        objectKeyField: 'name',
         convertFunction: (prop) => {
             return prop.name
         },

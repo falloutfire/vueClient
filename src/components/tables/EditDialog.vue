@@ -2,7 +2,7 @@
     <v-dialog v-model="isOpen" max-width="500px" persistent>
         <v-card>
             <v-card-title>
-                <span class="headline mt-2 ml-2">User</span>
+                <span class="headline mt-2 ml-2">{{ itemName }}</span>
             </v-card-title>
 
             <v-card-text>
@@ -10,11 +10,18 @@
                     <v-layout wrap>
 
                         <v-flex v-bind="descr['flexValues']" v-for="[key, descr] in fields" :key="key">
-                            <v-text-field
-                                    v-if="descr['descriptionFieldType'] === 'textField'"
-                                    v-model="value[key]"
-                                    v-bind="descr"
-                            ></v-text-field>
+                            <template v-if="descr['descriptionFieldType'] === 'textField'">
+                                <v-text-field
+                                        v-if="descr['objectKeyField'] === undefined"
+                                        v-model="value[key]"
+                                        v-bind="descr"
+                                ></v-text-field>
+                                <v-text-field
+                                        v-else
+                                        v-model="value[key][descr['objectKeyField']]"
+                                        v-bind="descr"
+                                ></v-text-field>
+                            </template>
                             <v-select
                                     v-if="descr['descriptionFieldType'] === 'selectField'"
                                     v-model="value[key]"
@@ -47,12 +54,7 @@
             fieldsDescription: Object,
             isOpen: Boolean,
             saveLoading: Boolean,
-        },
-        methods: {
-            closeDialog() {
-            },
-            save() {
-            },
+            itemName: String,
         },
         computed: {
             fields() {

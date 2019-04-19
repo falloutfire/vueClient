@@ -33,6 +33,7 @@ export const filmDescription = {
     },
     chemicalType:  {
         descriptionFieldType: 'textField',
+        objectKeyField: 'type',
         flexValues: {
             xs12: true,
             sm6: true,
