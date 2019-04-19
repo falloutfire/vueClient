@@ -171,8 +171,8 @@
                 this.snackbar = true;
                 this.snackbarColor = 'success';
             },
-            error(text) {
-                this.snackbarText = text;
+            error(error) {
+                this.snackbarText = `${error.response.data.error} - ${error.response.data.message}`;
                 this.snackbar = true;
                 this.snackbarColor = 'error';
             },
@@ -198,7 +198,7 @@
                     this.editLoading = false;
                     this.editedItem = lodash.cloneDeep(this.defaultItem);
                     this.editDialog = false;
-                    this.error(error.response.error);
+                    this.error(error);
                 })
             },
             save() {
@@ -212,7 +212,7 @@
                     this.createLoading = false;
                     this.createdItem = lodash.cloneDeep(this.this.defaultItem);
                     this.createDialog = false;
-                    this.error(error.response.error);
+                    this.error(error);
                 })
             },
             editItem(item) {
@@ -233,7 +233,7 @@
                 }).catch(error => {
                     this.deleteLoading = false;
                     this.deleteDialog = false;
-                    this.error(error.response.error);
+                    this.error(error);
                 })
             },
             updateItems() {
@@ -246,7 +246,7 @@
                     this.items = response.data.result
                 }).catch(error => {
                     this.itemsLoading = false;
-                    this.error(error.response.error);
+                    this.error(error);
                 });
             },
         },
