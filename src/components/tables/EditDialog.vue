@@ -11,16 +11,30 @@
 
                         <v-flex v-bind="descr['flexValues']" v-for="[key, descr] in fields" :key="key">
                             <template v-if="descr['descriptionFieldType'] === 'textField'">
-                                <v-text-field
-                                        v-if="descr['objectKeyField'] === undefined"
-                                        v-model="value[key]"
-                                        v-bind="descr"
-                                ></v-text-field>
-                                <v-text-field
-                                        v-else
-                                        v-model="value[key][descr['objectKeyField']]"
-                                        v-bind="descr"
-                                ></v-text-field>
+                                <template v-if="key.indexOf('.') === -1">
+                                    <v-text-field
+                                            v-if="descr['objectKeyField'] === undefined"
+                                            v-model="value[key]"
+                                            v-bind="descr"
+                                    ></v-text-field>
+                                    <v-text-field
+                                            v-else
+                                            v-model="value[key][descr['objectKeyField']]"
+                                            v-bind="descr"
+                                    ></v-text-field>
+                                </template>
+                                <template v-else>
+                                    <v-text-field
+                                            v-if="descr['objectKeyField'] === undefined"
+                                            v-model="value[key.split('.')[0]][key.split('.')[1]]"
+                                            v-bind="descr"
+                                    ></v-text-field>
+                                    <v-text-field
+                                            v-else
+                                            v-model="value[key][descr['objectKeyField']]"
+                                            v-bind="descr"
+                                    ></v-text-field>
+                                </template>
                             </template>
                             <v-select
                                     v-if="descr['descriptionFieldType'] === 'selectField'"
@@ -59,8 +73,8 @@
         computed: {
             fields() {
                 return Object.entries(this.fieldsDescription).filter(([, descr]) => {
-                    return descr['editableField'] !== undefined ? descr['editableField'] : true
-                })
+                    return descr['editableField'] !== undefined ? descr['editableField'] : true;
+                });
             },
         },
     }

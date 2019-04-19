@@ -28,6 +28,7 @@ export const deviceDescription = {
     },
     os: {
         descriptionFieldType: 'textField',
+        editableField: false,
         convertFunction: (prop) => {
             return `${prop.name} ${prop.version}`
         },
@@ -36,6 +37,24 @@ export const deviceDescription = {
             sm6: true,
         },
         label: 'os',
+    },
+    'os.name': {
+        descriptionFieldType: 'textField',
+        label: 'os name',
+        showInTable: false,
+        flexValues: {
+            xs12: true,
+            sm6: true,
+        },
+    },
+    'os.version': {
+        descriptionFieldType: 'textField',
+        label: 'os version',
+        showInTable: false,
+        flexValues: {
+            xs12: true,
+            sm6: true,
+        },
     },
     camDiafragma: {
         descriptionFieldType: 'textField',
@@ -61,7 +80,7 @@ export const deviceDescription = {
         },
         label: 'focus',
     },
-    stabilization: {//false
+    stabilization: {
         descriptionFieldType: 'checkBox',
         flexValues: {
             xs12: true,
