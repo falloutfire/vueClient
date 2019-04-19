@@ -167,6 +167,7 @@
                 return prop
             },
             success() {
+                this.updateItems();
                 this.snackbarText = 'success';
                 this.snackbar = true;
                 this.snackbarColor = 'success';
