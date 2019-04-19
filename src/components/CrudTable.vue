@@ -1,0 +1,261 @@
+<template>
+    <v-layout row wrap>
+        <v-flex xs12>
+            <v-toolbar flat color="white">
+                <v-toolbar-title>{{ tableName }}s</v-toolbar-title>
+                <v-divider
+                        class="mx-2"
+                        inset
+                        vertical
+                ></v-divider>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" dark class="mb-2" @click="createDialog = true">New {{ tableName }}</v-btn>
+                <v-dialog v-model="deleteDialog" max-width="500px">
+                    <v-card>
+                        <v-card-title>
+                            <v-layout row wrap justify-center>
+                                <span class="headline ">Are you sure to delete {{ tableName }}?</span>
+                            </v-layout>
+                        </v-card-title>
+                        <v-card-actions>
+                            <v-layout row wrap justify-center>
+                                <v-btn color="blue darken-1" flat @click="closeDeleteDialog">Cancel</v-btn>
+                                <v-btn color="blue darken-1" flat @click="sureDelete">Delete</v-btn>
+                            </v-layout>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
+
+                <edit-dialog
+                        :isOpen="editDialog"
+                        v-model="editedItem"
+                        :fieldsDescription="itemsDescription"
+                        @close="editDialog = $event"
+                        @apply="edit"
+                ></edit-dialog>
+
+                <edit-dialog
+                        :isOpen="createDialog"
+                        v-model="createdItem"
+                        :fieldsDescription="itemsDescription"
+                        :saveLoading="createLoading"
+                        @close="createDialog = $event"
+                        @apply="save"
+                ></edit-dialog>
+
+            </v-toolbar>
+            <v-snackbar
+                    v-model="snackbar"
+                    :color="snackbarColor"
+                    :multi-line="true"
+                    :timeout="3000"
+            >
+                {{ snackbarText }}
+            </v-snackbar>
+        </v-flex>
+        <v-flex xs12>
+            <v-data-table
+                    :headers="headers"
+                    :items="items"
+                    :loading="itemsLoading"
+                    class="elevation-1"
+            >
+                <template v-slot:items="props">
+                    <template v-for="[key, descr] in Object.entries(itemsDescription)">
+                        <td
+                                :key="key"
+                                v-if="(descr['showInTable'] !== undefined ? descr['showInTable'] : true)
+                                 && descr['descriptionFieldType'] !== 'checkBox'"
+                        > {{ getValues(props.item[key], descr) }}
+                        </td>
+                        <td v-if="descr['descriptionFieldType'] === 'checkBox'">
+                            <v-checkbox
+                                    v-model="props.item[key]"
+                                    primary
+                                    hide-details
+                            ></v-checkbox>
+                        </td>
+                        <!--                    <td>{{ props.item.firstName }}</td>-->
+                        <!--                    <td>{{ props.item.lastName }}</td>-->
+                        <!--                    <td>{{ props.item.email }}</td>-->
+                        <!--                    <td>{{ props.item.username }}</td>-->
+                        <!--                    <td>{{ getRoles(props.item.roles) }}</td>-->
+
+                    </template>
+                    <td class="justify-center layout px-0">
+                        <v-icon
+                                small
+                                class="mr-2"
+                                @click="editItem(props.item)"
+                        >
+                            edit
+                        </v-icon>
+                        <v-icon
+                                small
+                                @click="deleteItem(props.item)"
+                        >
+                            delete
+                        </v-icon>
+                    </td>
+                </template>
+            </v-data-table>
+        </v-flex>
+    </v-layout>
+</template>
+
+<script>
+    import HTTP from '../http';
+    import EditDialog from './tables/EditDialog';
+    import lodash from 'lodash';
+
+    export default {
+        name: "CrudTable",
+        components: {EditDialog},
+        props: {
+            tableName: String,
+            crudURL: String,
+            itemsDescription: Object,
+            defaultItem: Object,
+        },
+        data() {
+            return {
+                snackbar: false,
+                snackbarText: '',
+                snackbarColor: '',
+
+                itemsLoading: false,
+                items: [],
+
+                editDialog: false,
+                createDialog: false,
+                deleteDialog: false,
+
+                createLoading: false,
+                editLoading: false,
+                deleteLoading: false,
+
+                deletedItem: this.defaultItem,
+                editedItem: this.defaultItem,
+                createdItem: this.defaultItem,
+
+                // headers: [
+                //     {text: 'First Name', value: 'firstName'},
+                //     {text: 'Last name', value: 'lastName'},
+                //     {text: 'Email', value: 'email'},
+                //     {text: 'Username', value: 'username'},
+                //     {text: 'Roles', value: 'roles'},
+                // ],
+            }
+        },
+        computed: {
+            headers() {
+                return Object.entries(this.itemsDescription).filter(([key, descr]) => {
+                    return descr.showInTable === undefined || descr.showInTable
+                }).map(([key, descr]) => {
+                    return {
+                        text: key,
+                        value: key,
+                    }
+                })
+            },
+        },
+        methods: {
+            getValues(prop, descr) {
+                if (descr.convertFunction !== undefined) {
+                    return descr.convertFunction(prop)
+                }
+                return prop
+            },
+            success() {
+                this.snackbarText = 'success';
+                this.snackbar = true;
+                this.snackbarColor = 'success';
+            },
+            error(text) {
+                this.snackbarText = text;
+                this.snackbar = true;
+                this.snackbarColor = 'error';
+            },
+            getRoles(roles) {
+                return roles.map(role => role.roleName).join(', ');
+            },
+            closeDeleteDialog() {
+                this.deletedItem = null;
+                this.deleteDialog = false;
+            },
+            closeDialog() {
+                this.editedItem = lodash.cloneDeep(this.defaultItem);
+                this.editDialog = false;
+            },
+            edit() {
+                this.editLoading = true;
+                HTTP.put('${this.crudURL}', this.editedItem).then(response => {
+                    this.editLoading = false;
+                    this.editedItem = lodash.cloneDeep(this.defaultItem);
+                    this.editDialog = false;
+                    this.success();
+                }).catch(error => {
+                    this.editLoading = false;
+                    this.editedItem = lodash.cloneDeep(this.defaultItem);
+                    this.editDialog = false;
+                    this.error(error.response.error);
+                })
+            },
+            save() {
+                this.createLoading = true;
+                HTTP.post(`${this.crudURL}/${this.deletedItem.id}`, this.createdItem).then(response => {
+                    this.createLoading = false;
+                    this.createdItem = lodash.cloneDeep(this.defaultItem);
+                    this.createDialog = false;
+                    this.success();
+                }).catch(error => {
+                    this.createLoading = false;
+                    this.createdItem = lodash.cloneDeep(this.this.defaultItem);
+                    this.createDialog = false;
+                    this.error(error.response.error);
+                })
+            },
+            editItem(item) {
+                this.editedItem = item;
+                this.editDialog = true;
+            },
+            deleteItem(item) {
+                this.deletedItem = item;
+                this.deleteDialog = true;
+            },
+            sureDelete() {
+                this.deleteLoading = true;
+                HTTP.delete(`${this.crudURL}/${this.deletedItem.id}`).then(response => {
+                    this.deleteLoading = false;
+                    this.deleteDialog = false;
+                    console.log(response);
+                    this.success();
+                }).catch(error => {
+                    this.deleteLoading = false;
+                    this.deleteDialog = false;
+                    this.error(error.response.error);
+                })
+            },
+            updateItems() {
+                this.deletedItem = lodash.cloneDeep(this.defaultItem);
+                this.editedItem = lodash.cloneDeep(this.defaultItem);
+                this.createdItem = lodash.cloneDeep(this.defaultItem);
+                this.itemsLoading = true;
+                HTTP.get(`${this.crudURL}`).then(response => {
+                    this.itemsLoading = false;
+                    this.items = response.data.result
+                }).catch(error => {
+                    this.itemsLoading = false;
+                    this.error(error.response.error);
+                });
+            },
+        },
+        mounted() {
+            this.updateItems();
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

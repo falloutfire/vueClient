@@ -9,8 +9,7 @@ const HTTP = axios.create({
 HTTP.interceptors.request.use(config => {
     // Используется для подстановки токена аутентификации в каждый запрос
     if (config.url.indexOf('oauth/token') === -1) {
-        console.log(config.url);
-        config.headers.Authorization = `Basic ${store.getters.accessToken}`;
+        config.url += `?access_token=${store.getters.accessToken}`;
     }
     return config
 });
