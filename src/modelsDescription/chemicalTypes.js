@@ -17,8 +17,7 @@ export const chemicalTypeDescription = {
         descriptionFieldType: 'textField',
         flexValues: {
             xs12: true,
-            sm6: true,
         },
-        label: 'type',
+        label: 'chemical type',
     },
 };
