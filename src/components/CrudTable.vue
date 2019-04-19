@@ -189,7 +189,7 @@
             },
             edit() {
                 this.editLoading = true;
-                HTTP.put('${this.crudURL}', this.editedItem).then(response => {
+                HTTP.put(`${this.crudURL}`, this.editedItem).then(response => {
                     this.editLoading = false;
                     this.editedItem = lodash.cloneDeep(this.defaultItem);
                     this.editDialog = false;
