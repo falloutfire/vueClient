@@ -229,7 +229,6 @@
                 HTTP.delete(`${this.crudURL}/${this.deletedItem.id}`).then(response => {
                     this.deleteLoading = false;
                     this.deleteDialog = false;
-                    console.log(response);
                     this.success();
                 }).catch(error => {
                     this.deleteLoading = false;
