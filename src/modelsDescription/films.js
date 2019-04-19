@@ -32,7 +32,8 @@ export const filmDescription = {
         label: 'color',
     },
     chemicalType:  {
-        descriptionFieldType: 'textField',
+        descriptionFieldType: 'selectField',
+        urlToGetSelectables: 'bd_template/chemical_types',
         objectKeyField: 'type',
         flexValues: {
             xs12: true,
@@ -41,6 +42,9 @@ export const filmDescription = {
         convertFunction: (prop) => {
             return prop.type
         },
+        itemText: "type",
+        itemValue: "id",
+        returnObject: true,
         label: 'chemicalType',
     },
 };

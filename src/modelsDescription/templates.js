@@ -51,6 +51,7 @@ export const templateDescription = {
             return prop.name
         },
         itemText: "name",
+        itemValue: "id",
         returnObject: true,
         label: 'device',
     },
@@ -66,6 +67,7 @@ export const templateDescription = {
             return prop.name
         },
         itemText: "name",
+        itemValue: "id",
         returnObject: true,
         label: 'film',
     },
@@ -78,6 +80,7 @@ export const templateDescription = {
         },
         objectKeyField: 'name',
         itemText: "name",
+        itemValue: "id",
         convertFunction: (prop) => {
             return prop.name
         },
