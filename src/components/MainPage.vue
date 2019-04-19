@@ -48,6 +48,10 @@
     import {usersDescription, defaultUser} from "@/modelsDescription/users";
     import {osDescription, defaultOs} from "@/modelsDescription/os";
     import {defaultDevice, deviceDescription} from "@/modelsDescription/devices";
+    import {chemicalTypeDescription, defaultChemicalType} from "@/modelsDescription/chemicalTypes";
+    import {defaultFilm, filmDescription} from "@/modelsDescription/films";
+    import {defaultLuminophore, luminophoreDescription} from "@/modelsDescription/luminophore";
+    import {defaultTemplate, templateDescription} from "@/modelsDescription/templates";
 
     export default {
         name: "MainPage",
@@ -74,6 +78,30 @@
                         itemsDescription: lodash.cloneDeep(deviceDescription),
                         defaultItem: lodash.cloneDeep(defaultDevice),
                     },
+                    'ChemicalTypesTable': {
+                        tableName: 'ChemicalType',
+                        crudURL: 'bd_template/chemical_types',
+                        itemsDescription: lodash.cloneDeep(chemicalTypeDescription),
+                        defaultItem: lodash.cloneDeep(defaultChemicalType),
+                    },
+                    'FilmsTable': {
+                        tableName: 'Film',
+                        crudURL: 'bd_template/film',
+                        itemsDescription: lodash.cloneDeep(filmDescription),
+                        defaultItem: lodash.cloneDeep(defaultFilm),
+                    },
+                    'LuminophoreTable': {
+                        tableName: 'Luminophore',
+                        crudURL: 'bd_template/luminophore',
+                        itemsDescription: lodash.cloneDeep(luminophoreDescription),
+                        defaultItem: lodash.cloneDeep(defaultLuminophore),
+                    },
+                    'TemplatesTable': {
+                        tableName: 'Template',
+                        crudURL: 'bd_template/template',
+                        itemsDescription: lodash.cloneDeep(templateDescription),
+                        defaultItem: lodash.cloneDeep(defaultTemplate),
+                    },
                 },
                 items: [
                     {
@@ -87,7 +115,24 @@
                     {
                         title: 'Devices',
                         table: 'DeviceTable',
-                    }
+                    },
+                    {
+                        title: 'ChemicalTypes',
+                        table: 'ChemicalTypesTable',
+                    },
+                    {
+                        title: 'Films',
+                        table: 'FilmsTable',
+                    },
+                    {
+                        title: 'Luminophore',
+                        table: 'LuminophoreTable',
+                    },
+                    {
+                        title: 'Templates',
+                        table: 'TemplatesTable',
+                    },
+
                 ],
             }
         },
