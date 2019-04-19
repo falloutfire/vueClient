@@ -8,6 +8,15 @@ export const defaultUser = {
 };
 
 export const usersDescription = {
+    id: {
+        descriptionFieldType: 'textField',
+        editableField: false,
+        flexValues: {
+            xs12: true,
+            sm6: true,
+        },
+        label: 'id',
+    },
     firstName: {
         descriptionFieldType: 'textField',
         flexValues: {

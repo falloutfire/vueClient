@@ -16,6 +16,7 @@ export const defaultTemplate = {
 export const templateDescription = {
     id:  {
         descriptionFieldType: 'textField',
+        editableField: false,
         flexValues: {
             xs12: true,
             sm6: true,

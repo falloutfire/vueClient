@@ -6,6 +6,7 @@ export const defaultChemicalType = {
 export const chemicalTypeDescription = {
     id: {
         descriptionFieldType: 'textField',
+        editableField: false,
         flexValues: {
             xs12: true,
             sm6: true,

@@ -8,6 +8,7 @@ export const defaultFilm = {
 export const filmDescription = {
     id: {
         descriptionFieldType: 'textField',
+        editableField: false,
         flexValues: {
             xs12: true,
             sm6: true,

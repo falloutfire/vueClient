@@ -8,6 +8,7 @@ export const defaultLuminophore = {
 export const luminophoreDescription = {
     id: {
         descriptionFieldType: 'textField',
+        editableField: false,
         flexValues: {
             xs12: true,
             sm6: true,

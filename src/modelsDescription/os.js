@@ -7,6 +7,7 @@ export const defaultOs = {
 export const osDescription = {
     id: {
         descriptionFieldType: 'textField',
+        editableField: false,
         flexValues: {
             xs12: true,
             sm6: true,

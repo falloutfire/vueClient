@@ -11,6 +11,7 @@ export const defaultDevice = {
 export const deviceDescription = {
     id: {
         descriptionFieldType: 'textField',
+        editableField: false,
         flexValues: {
             xs12: true,
             sm6: true,
