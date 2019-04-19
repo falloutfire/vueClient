@@ -66,20 +66,11 @@ export const usersDescription = {
         flexValues: {
             xs12: true,
         },
-        items: [
-            {
-                id: 1,
-                roleName: 'ROLE_ADMIN',
-            },
-            {
-                id: 2,
-                roleName: 'ROLE_USER',
-            }
-        ],
         itemText: "roleName",
         itemValue: "id",
         multiple: true,
         returnObject: true,
         label: "Roles",
+        urlToGetSelectables: 'roles',
     }
 };

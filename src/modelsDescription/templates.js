@@ -40,7 +40,8 @@ export const templateDescription = {
         label: 'rounding',
     },
     device:  {
-        descriptionFieldType: 'textField',
+        descriptionFieldType: 'selectField',
+        urlToGetSelectables: 'bd_template/device',
         flexValues: {
             xs12: true,
             sm6: true,
@@ -49,10 +50,13 @@ export const templateDescription = {
         convertFunction: (prop) => {
             return prop.name
         },
+        itemText: "name",
+        returnObject: true,
         label: 'device',
     },
     film:  {
-        descriptionFieldType: 'textField',
+        descriptionFieldType: 'selectField',
+        urlToGetSelectables: 'bd_template/film',
         flexValues: {
             xs12: true,
             sm6: true,
@@ -61,18 +65,23 @@ export const templateDescription = {
         convertFunction: (prop) => {
             return prop.name
         },
+        itemText: "name",
+        returnObject: true,
         label: 'film',
     },
     luminophore:  {
-        descriptionFieldType: 'textField',
+        descriptionFieldType: 'selectField',
+        urlToGetSelectables: 'bd_template/luminophore',
         flexValues: {
             xs12: true,
             sm6: true,
         },
         objectKeyField: 'name',
+        itemText: "name",
         convertFunction: (prop) => {
             return prop.name
         },
+        returnObject: true,
         label: 'luminophore',
     },
     xcolor:  {

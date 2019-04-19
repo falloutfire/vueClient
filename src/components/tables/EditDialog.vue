@@ -40,6 +40,7 @@
                                     v-if="descr['descriptionFieldType'] === 'selectField'"
                                     v-model="value[key]"
                                     v-bind="descr"
+                                    :items="items[key]"
                             ></v-select>
                             <v-checkbox
                                     v-if="descr['descriptionFieldType'] === 'checkBox'"
@@ -61,6 +62,8 @@
 </template>
 
 <script>
+    import HTTP from "@/http";
+
     export default {
         name: "EditDialog",
         props: {
@@ -70,11 +73,32 @@
             saveLoading: Boolean,
             itemName: String,
         },
+        data() {
+            return {
+                items: {}
+            }
+        },
+        methods: {
+            async retrieveSelectable(fields) {
+                fields.filter(([, descr]) => {
+                    return descr['descriptionFieldType'] === 'selectField';
+                }).forEach(([key, descr]) => {
+                    HTTP.get(descr['urlToGetSelectables']).then(response => {
+                        this.items[key] = response.data.result
+                    })
+                })
+            },
+        },
         computed: {
             fields() {
-                return Object.entries(this.fieldsDescription).filter(([, descr]) => {
+                const fields = Object.entries(this.fieldsDescription).filter(([, descr]) => {
                     return descr['editableField'] !== undefined ? descr['editableField'] : true;
                 });
+                fields.forEach(([key,]) => {
+                    this.items[key] = [];
+                });
+                this.retrieveSelectable(fields);
+                return fields;
             },
         },
     }
