@@ -211,7 +211,7 @@
                     this.success();
                 }).catch(error => {
                     this.createLoading = false;
-                    this.createdItem = lodash.cloneDeep(this.this.defaultItem);
+                    this.createdItem = lodash.cloneDeep(this.defaultItem);
                     this.createDialog = false;
                     this.error(error);
                 })
