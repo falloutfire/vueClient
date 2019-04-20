@@ -1,7 +1,6 @@
 var express = require('express')
 var path = require('path')
 var serveStatic = require('serve-static')
-const history = require('connect-history-api-fallback')
 
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 
