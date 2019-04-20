@@ -2,15 +2,9 @@
   "name": "ilya_front",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "10.15.3"
-  },
   "scripts": {
-    "postinstall": "npm install express",
-    "start": "npm run serve",
     "serve": "vue-cli-service serve --config build/webpack.dev.conf.js",
-    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build",
-    "build": "node build/build.js",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
